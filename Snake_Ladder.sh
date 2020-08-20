@@ -49,3 +49,4 @@ winningPosition() {
 	done
 }
 winningPosition
+echo $position
