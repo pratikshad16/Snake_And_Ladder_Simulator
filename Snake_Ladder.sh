@@ -1,4 +1,4 @@
-#!/bin/bash -x
+##!/bin/bash -x
 #constant
 START_POSITION=0
 FINAL_POSITION=100
@@ -10,10 +10,15 @@ LADDER=2
 dice=0
 option=0
 position=$START_POSITION
+numberOfTimesDiceRolled=0
+count=0
+
+declare -a array
 
 rollDie() {
 	dice=$(( RANDOM % 6 + 1 ))
 	option=$(( RANDOM % 3 + 1 ))
+	(( numberOfTimesDiceRolled++ ))
 }
 checkOption() {
 	rollDie
@@ -45,8 +50,20 @@ winningPosition() {
 		if [ $position -lt $START_POSITION ]
 		then
 			position=$START_POSITION
+		elif [ $position -gt $FINAL_POSITION ]
+		then
+			position=$(($position - $dice))
 		fi
+		array[$count]=$position
+		count=$(($count + 1))
 	done
 }
-winningPosition
-echo $position
+
+positionAfterEveryDie() {
+	winningPosition
+	for (( boardPosition=0 ; boardPosition<$numberOfTimesDiceRolled ; boardPosition++ ))
+	do
+		echo "Turn of Dice $(($boardPosition +1)) : Position ${array[$boardPosition]}"
+	done
+}
+positionAfterEveryDie
