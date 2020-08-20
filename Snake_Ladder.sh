@@ -1,6 +1,7 @@
 #!/bin/bash -x
 #constant
 START_POSITION=0
+FINAL_POSITION=100
 NO_PLAY=0
 SNAKE=1
 LADDER=2
@@ -37,4 +38,14 @@ checkOption() {
 			;;
 		esac
 }
-checkOption
+winningPosition() {
+	while [ $position -ne $FINAL_POSITION ] || [ $position -gt $FINAL_POSITION ]
+	do
+		checkOption
+		if [ $position -lt $START_POSITION ]
+		then
+			position=$START_POSITION
+		fi
+	done
+}
+winningPosition
